@@ -1,9 +1,9 @@
-### Linear Regression : static & streaming
+# Linear Regression : static & streaming
 
 Apply linear regression on a static csv folder
 then by looking at a folder that keep being updated.
 
-#Build Jar 
+# Build Jar 
 ````
 sbt assembly
 ````
@@ -13,11 +13,11 @@ sbt assembly
 spark-submit --class SparkBatch target/scala-2.11/food-growth-assembly-1.0.jar
 ````
 
-#UDAF
+# UDAF
 Spark custom aggregation function to compute slopes of each growth line. Extend the Spark class UserDefinedAggregateFunction.
 Check Growth.scala
 
-#Results
+# Results
 ## Static
 FoodGrowth.scala is the static implementation of computation of growth.
 
