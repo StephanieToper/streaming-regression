@@ -3,7 +3,7 @@
 We apply a linear regression on a static csv folder then by looking at a folder that keep being updated from different csv files.
 
 # Static
-FoodGrowth.scala is the static implementation of the computation of growth.
+FoodGrowth.scala is the static implementation of computation of growth.
 
 Take a look at the UnitTest FoodGrowthTest.scala to see how to run it.
 

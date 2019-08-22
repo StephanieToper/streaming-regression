@@ -14,7 +14,7 @@ import org.apache.spark.sql.functions.{col, udf}
 object FoodGrowthStreaming {
 
   def main(args: Array[String]): Unit = {
-    val fileName = "/home/steph/tmp/streaming_folder/"
+    val fileName = args(0)//"/home/steph/tmp/streaming_folder/"
 
     val spark:SparkSession = SparkSession.builder()
       .master("local[3]")
