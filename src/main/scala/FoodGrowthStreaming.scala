@@ -1,20 +1,14 @@
-import java.time.Duration
-
 import org.apache.spark.sql.SparkSession
-import org.apache.spark.sql.types.{IntegerType, StringType, StructField, StructType}
+import org.apache.spark.sql.types.{StructType}
 import setup.Food
-import org.apache.spark.sql.Column
 import org.apache.spark.sql.streaming.StreamingQuery
-import org.apache.spark.streaming.dstream.DStream
-
-import scala.concurrent.duration.Duration
-//import org.apache.spark.sql.types.{DataType, DateType, TimestampType}
 import org.apache.spark.sql.functions.{col, udf}
+import org.apache.spark.sql.catalyst.ScalaReflection
 
 object FoodGrowthStreaming {
 
   def main(args: Array[String]): Unit = {
-    val fileName = args(0)//"/home/steph/tmp/streaming_folder/"
+    val fileName = args(0)
 
     val spark:SparkSession = SparkSession.builder()
       .master("local[3]")
@@ -30,24 +24,7 @@ object FoodGrowthStreaming {
 
   def computeAndOrderGrowthStreaming( folderPath : String, spark: SparkSession):StreamingQuery = {
 
-
-    import org.apache.spark.sql.catalyst.ScalaReflection
     val userSchema = ScalaReflection.schemaFor[Food].dataType.asInstanceOf[StructType]
-
-//    val userSchema = new StructType()
-//      .add("area_abbreviation", "string")
-//      .add("area_code", "integer")
-//      .add("area", "string")
-//      .add("item_code", "integer")
-//      .add("item", "string")
-//      .add("element_code", "integer")
-//      .add("element", "string")
-//      .add("unit", "string")
-//      .add("latitude","double")
-//      .add("longitude","double")
-//      .add("year","integer")
-//      .add("quantity","integer")
-
 
     val csvDF = spark
       .readStream
@@ -63,6 +40,5 @@ object FoodGrowthStreaming {
     val res= dsLog.groupBy("item","area").agg(gr(col("log_quantity"), col("log_year")).as("growth")).orderBy(col("growth").desc)
     val t =res.writeStream.format("console").option("truncate","false").outputMode("complete").start()
     return t
-
   }
 }

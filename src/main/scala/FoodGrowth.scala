@@ -2,7 +2,7 @@ import org.apache.spark.sql.{DataFrame, SparkSession}
 import org.apache.spark.SparkConf
 import org.apache.spark.SparkContext
 import setup.Food
-
+import org.apache.spark.sql.functions.udf
 
 object FoodGrowth {
 
@@ -23,18 +23,16 @@ object FoodGrowth {
     val ds = spark.read.format ("csv")
     .option ("header", "true")
     .option ("inferSchema", "true")
-    .load (fileName) //"food_data.csv"
+    .load (fileName)
     .as[Food]
 
     val gr = new Growth
-
-    import org.apache.spark.sql.functions.udf
 
     val logUDF = udf ((x: Int) => math.log (x) )
 
     val dsLog = ds.select ($"quantity", $"year", $"area", $"item", logUDF ($"quantity").as ("log_quantity"), logUDF ($"year").as ("log_year") )
 
     val dsGrowthLog = dsLog.groupBy ("area", "item").agg (gr (dsLog.col ("log_quantity"), dsLog.col ("log_year") ).as ("growth") )
-    dsGrowthLog.orderBy ($"growth".desc)//.show ()
+    dsGrowthLog.orderBy ($"growth".desc)
   }
 }
