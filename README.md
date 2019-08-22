@@ -1,11 +1,25 @@
-### Linear Regression 
+### Linear Regression : static & streaming
 
-We apply a linear regression on a static csv folder then by looking at a folder that keep being updated from different csv files.
+Apply linear regression on a static csv folder
+then by looking at a folder that keep being updated.
 
-# Static
+#Build Jar 
+````
+sbt assembly
+````
+
+# Submit Batch
+````
+spark-submit --class SparkBatch target/scala-2.11/food-growth-assembly-1.0.jar
+````
+
+#UDAF
+Spark custom aggregation function to compute slopes of each growth line. Extend the Spark class UserDefinedAggregateFunction.
+Check Growth.scala
+
+#Results
+## Static
 FoodGrowth.scala is the static implementation of computation of growth.
-
-Take a look at the UnitTest FoodGrowthTest.scala to see how to run it.
 
 Method computeAndOrderGrowth return a dataset with the largest to the smallest growth ordered.
 
@@ -36,11 +50,9 @@ Output :
 
 only showing top 20 rows
 
-# Streaming
+## Streaming
 
 FoodGrowthStreaming.scala is the static implementation of the computation of growth.
-
-Take a look at the UnitTest FoodGrowthStreamingTest.scala to see how to run it.
 
 Method computeAndOrderGrowthStreaming return a dataset with the largest to the smallest growth ordered. Growth will be calculated in any file you add to the folder.
 

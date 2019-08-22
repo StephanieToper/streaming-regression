@@ -1,16 +1,13 @@
-import com.sun.org.apache.xalan.internal.xsltc.compiler.util.IntType
 import org.apache.spark.sql.expressions.MutableAggregationBuffer
 import org.apache.spark.sql.expressions.UserDefinedAggregateFunction
 import org.apache.spark.sql.Row
-import org.apache.spark.sql.types._
-import org.apache.spark.sql.types.{StructType, StructField, DoubleType, LongType, DataType, ArrayType}
-
+import org.apache.spark.sql.types.{StructType, DoubleType, LongType, DataType, ArrayType}
+import org.apache.commons.math3.stat.regression.SimpleRegression
+import java.util.ArrayList
 
 case class RegressionData(slope: Double)
 
 class Regression  {
-
-  import org.apache.commons.math3.stat.regression.SimpleRegression
 
   def roundAt(p: Int)(n: Double): Double = { val s = math pow (10, p); (math round n * s) / s }
 
@@ -26,7 +23,6 @@ class Regression  {
 
 
 class Growth extends UserDefinedAggregateFunction {
-  import java.util.ArrayList
 
   // This is the input fields for your aggregate function.
   override def inputSchema: org.apache.spark.sql.types.StructType =
