@@ -1,4 +1,4 @@
-# Linear Regression : static & streaming
+# Linear Regression : Static & Streaming
 
 Apply linear regression on a static csv folder
 then by looking at a folder that keep being updated.
